@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
+import random
+import pyperclip
 
 FONT_NAME = 'Helvetica'
 
@@ -23,6 +25,24 @@ def clear_text():
     website_entry.delete(0, END)
     email_entry.delete(0, END)
     password_entry.delete(0, END)
+    
+
+def create_pass():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+        
+    letter_list = [random.choice(letters) for _ in range(random.randint(8, 10))]
+    number_list = [random.choice(numbers) for _ in range(random.randint(2, 4))]
+    symbol_list = [random.choice(symbols) for _ in range(random.randint(2, 4))]
+    
+    password_list = letter_list + number_list + symbol_list
+    random.shuffle(password_list)
+
+    password = "".join(password_list)
+        
+    password_entry.insert(0, password)
+    pyperclip.copy(password)
 
 
 win = Tk()
@@ -53,7 +73,7 @@ password_entry.grid(column=1, row=3)
 password_label = Label(text='Password:', font=(FONT_NAME, 12, 'normal'))
 password_label.grid(column=0, row=3)
 
-gen_password = Button(text='Generate Password', width=11)
+gen_password = Button(text='Generate Password', width=11, command=create_pass)
 gen_password.grid(column=2, row=3)
 
 add_button = Button(text='Add', width=32, command=save_entry)
