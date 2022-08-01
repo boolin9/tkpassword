@@ -1,15 +1,22 @@
 from tkinter import *
+from tkinter import messagebox
 
 FONT_NAME = 'Helvetica'
+
 
 def save_entry():
     website_text = website_entry.get()
     email_text = email_entry.get()
     password_text = password_entry.get()
-    file = open('password_bank.txt', 'w')
-    file.write(f"{website_text} | {email_text} | {password_text}")
-    file.close()
-    clear_text()
+    if len(website_text) != 0 and len(email_text) != 0 and len(password_text) != 0:
+        is_correct = messagebox.askokcancel(message=f"Would you like to save this entry?:\n\nWebsite: {website_text}\nEmail: {email_text}\nPassword: {password_text}\n")
+        if is_correct:
+            file = open('password_bank.txt', 'a')
+            file.write(f"{website_text} | {email_text} | {password_text}\n")
+            file.close()
+            clear_text()
+    else:
+        messagebox.showinfo(title='Invalid entry', message='Please fill out all of the fields')
     
 
 def clear_text():
