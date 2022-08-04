@@ -8,7 +8,7 @@ FONT_NAME = 'Helvetica'
 
 
 def save_entry():
-    website_text = website_entry.get()
+    website_text = website_entry.get().title()
     email_text = email_entry.get()
     password_text = password_entry.get()
     
@@ -31,7 +31,7 @@ def save_entry():
         else:
             data.update(new_data)
             with open('password_bank.json', 'w') as file:
-                json.dump(new_data, file, indent=4)
+                json.dump(data, file, indent=4)
         finally:
             clear_text()
             
@@ -61,7 +61,15 @@ def create_pass():
     
 
 def search_bank():
-    pass
+    try:
+        search = website_entry.get().title()
+        with open('password_bank.json', 'r') as dict:
+            data = json.load(dict)
+            messagebox.showinfo(title=search, message=f"Email: {data[search]['email']}\nPassword: {data[search]['password']}")
+    except FileNotFoundError:
+        messagebox.showinfo(message="No data file found")
+    except KeyError:
+        messagebox.showinfo(message=f"No details for {search} exists")
         
 
 win = Tk()
